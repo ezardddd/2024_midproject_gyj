@@ -62,7 +62,7 @@ jobs:
       - name: Checkout kustomize repository
         uses: actions/checkout@v2
         with:
-          repository: kookoohs/k8s-manifest-repo
+          repository: ezardddd/mid2-manifest-repo
           ref: main
           token: ${{ secrets.ACTION_TOKEN }}
           path: k8s-manifest-repo
