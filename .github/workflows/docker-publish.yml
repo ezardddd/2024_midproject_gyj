@@ -78,10 +78,10 @@ jobs:
 
       - name: Check for changes
         run: |
-        cd k8s-manifest-repo
-        git status
-        git diff
-        
+          cd k8s-manifest-repo
+          git status
+          git diff
+
       - name: Commit files
         run: |
           cd k8s-manifest-repo
