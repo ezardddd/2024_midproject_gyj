@@ -50,8 +50,8 @@ jobs:
           ECR_REPOSITORY: mid2-frontend
           IMAGE_TAG: ${{ steps.image.outputs.version }}
         run: |
-          echo "::set-output name=ecr_repository::$ECR_REPOSITORY"
-          echo "::set-output name=image_tag::$IMAGE_TAG"
+          echo "ECR_REPOSITORY=$ECR_REPOSITORY" >> $GITHUB_ENV
+          echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_ENV
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY_FRONTEND:$IMAGE_TAG ./Frontend
           docker push $ECR_REGISTRY/$ECR_REPOSITORY_FRONTEND:$IMAGE_TAG
 
@@ -62,11 +62,10 @@ jobs:
           ECR_REPOSITORY: mid2-backend
           IMAGE_TAG: ${{ steps.image.outputs.version }}
         run: |
-          echo "::set-output name=ecr_repository::$ECR_REPOSITORY"
-          echo "::set-output name=image_tag::$IMAGE_TAG"
+          echo "ECR_REPOSITORY=$ECR_REPOSITORY" >> $GITHUB_ENV
+          echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_ENV
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY_BACKEND:$IMAGE_TAG ./Backend
           docker push $ECR_REGISTRY/$ECR_REPOSITORY_BACKEND:$IMAGE_TAG
-
 
       - name: Setup Kustomize
         uses: imranismail/setup-kustomize@v2
@@ -82,10 +81,8 @@ jobs:
       - name: Update Kubernetes resources
         run: |
           echo ${{ steps.login-ecr.outputs.registry }}
-          echo ${{ steps.image-info.outputs.ecr_repository }}
-          echo ${{ steps.image-info.outputs.image_tag }}
           cd mid2-manifest-repo/overlays/dev/
-          kustomize edit set image ${{ steps.login-ecr.outputs.registry}}/${{ steps.image-info.outputs.ecr_repository }}=${{ steps.login-ecr.outputs.registry}}/${{ steps.image-info.outputs.ecr_repository }}:${{ steps.image-info.outputs.image_tag }}
+          kustomize edit set image ${{ steps.login-ecr.outputs.registry}}/$ECR_REPOSITORY=${{ steps.login-ecr.outputs.registry }}/$ECR_REPOSITORY:$IMAGE_TAG
           cat kustomization.yaml
 
       - name: Commit files
