@@ -76,11 +76,10 @@ jobs:
           kustomize edit set image ${{ steps.login-ecr.outputs.registry}}/${{ steps.image-info.outputs.ecr_repository }}=${{ steps.login-ecr.outputs.registry}}/${{ steps.image-info.outputs.ecr_repository }}:${{ steps.image-info.outputs.image_tag }}
           cat kustomization.yaml
 
-      - name: Check for changes
+      - name: Check if there are any changes ✅ 변경점 있는지 체크
+        id: verify_diff
         run: |
-          cd k8s-manifest-repo
-          git status
-          git diff
+          git diff --quiet . || echo "changed=true" >> $GITHUB_OUTPUT
 
       - name: Commit files
         run: |
