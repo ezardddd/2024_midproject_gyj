@@ -1,6 +1,1 @@
 node_modules
-private.ini
-.env
-.vscode
-https*
-backup/*
