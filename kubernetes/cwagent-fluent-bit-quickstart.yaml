@@ -68,12 +68,12 @@ data:
   cwagentconfig.json: |
     {
       "agent": {
-        "region": "{{region_name}}"
+        "region": "ap-southeast-1"
       },
       "logs": {
         "metrics_collected": {
           "kubernetes": {
-            "cluster_name": "{{cluster_name}}",
+            "cluster_name": "mybank-cluster",
             "metrics_collection_interval": 60
           }
         },
@@ -183,17 +183,17 @@ spec:
 ---
 
 # create configmap for cluster name and aws region for CloudWatch Logs
-# need to replace the placeholders {{cluster_name}} and {{region_name}}
-# and need to replace {{http_server_toggle}} and {{http_server_port}}
-# and need to replace {{read_from_head}} and {{read_from_tail}}
+# need to replace the placeholders mybank-cluster and ap-southeast-1
+# and need to replace "On" and "2020"
+# and need to replace "Off" and "On"
 apiVersion: v1
 data:
-  cluster.name: {{cluster_name}}
-  logs.region: {{region_name}}
-  http.server: {{http_server_toggle}}
-  http.port: {{http_server_port}}
-  read.head: {{read_from_head}}
-  read.tail: {{read_from_tail}}
+  cluster.name: mybank-cluster
+  logs.region: ap-southeast-1
+  http.server: "On"
+  http.port: "2020"
+  read.head: "Off"
+  read.tail: "On"
 kind: ConfigMap
 metadata:
   name: fluent-bit-cluster-info
