@@ -56,7 +56,7 @@ app.use(function (err, req, res, next) {
 });
 
 // Listen
-const port = process.env.PORT || 443;
+const port = process.env.PORT || 3000;
 https.createServer(options, app).listen(port, (err) => {
     if (err) {
         console.error('Error starting server:', err);
