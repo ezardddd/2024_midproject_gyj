@@ -18,4 +18,4 @@ USER node
 
 EXPOSE 8000
 
-CMD ["node", "server-backend.js"]
+CMD ["node", "server-frontend.js"]
